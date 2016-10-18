@@ -21,7 +21,7 @@ public class MessageBuffer {
         messages = new Message [CAPACITY];
     }
 
-    public synchronized Message get() {
+    public synchronized Message get(int myPid) {
         // Wait until message is available.
         while (numItems == 0) {
             try {
@@ -29,14 +29,21 @@ public class MessageBuffer {
                 wait();
             } catch (InterruptedException e) {}
         }
-        // Toggle status.
-        numItems--;
-        // Notify producer that buffer is empty
-        notifyAll();
-        Message msg = messages [back];
-        back = (back + 1) % CAPACITY ;
-        return msg;
-
+        
+        //check the available message isn't one I sent ..
+        if ( messages[back].getPid() == myPid) {
+            // I don't want this message. Notify others so someone else can grab it
+            notifyAll();
+            return null;
+        } else {
+            // Toggle status.
+            numItems--;
+            // Notify producer that buffer is empty
+            Message msg = messages [back];
+            back = (back + 1) % CAPACITY ;
+            notifyAll();
+            return msg;
+        }
     }
 
     public synchronized void put(Message message) {
