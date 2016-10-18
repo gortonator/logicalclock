@@ -63,13 +63,12 @@ public class LamportClient implements Runnable {
                 // get a message and set clock according to Lamport algorithm
                 //System.out.println("Getting a message: " + Integer.toString(pid));
                 Message recMsg = buffer.get(pid);
-                if (recMsg == null) {
-                    // it was a message we sent so ignore
-                    // recMsg = buffer.get(pid);
-                } else {
+                 // chck it wasn't a message we sent (null returned) as we want to ignore those
+                 
+                if (recMsg != null) {
                     // add the event ...
                     if (recMsg.getClock() > clock) {
-                    clock = recMsg.getClock() + 1; 
+                        clock = recMsg.getClock() + 1; 
                     }
                     event = Integer.toString(pid) + ":receive from " + recMsg.getMessageID() +  ":new clock:" +Integer.toString(clock); 
                     events.add(event);
