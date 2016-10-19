@@ -69,6 +69,8 @@ public class LamportClient implements Runnable {
                     // add the event ...
                     if (recMsg.getClock() > clock) {
                         clock = recMsg.getClock() + 1; 
+                    } else {
+                        clock++;
                     }
                     event = Integer.toString(pid) + ":receive from " + recMsg.getMessageID() +  ":new clock:" +Integer.toString(clock); 
                     events.add(event);
