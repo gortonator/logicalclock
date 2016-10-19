@@ -25,7 +25,7 @@ public class MessageBuffer {
         // Wait until message is available.
         while (numItems == 0) {
             try {
-                System.out.println("Waiting for a message");
+                System.out.println(myPid + " is waiting for a message");
                 wait();
             } catch (InterruptedException e) {}
         }
@@ -33,6 +33,7 @@ public class MessageBuffer {
         //check the available message isn't one I sent ..
         if ( messages[back].getPid() == myPid) {
             // I don't want this message. Notify others so someone else can grab it
+            System.out.println(myPid + ":Same pid as message in buffer");
             notifyAll();
             return null;
         } else {
