@@ -31,7 +31,7 @@ public class LamportClient implements Runnable {
         ArrayList<String> events  = new ArrayList<String> ();         
         
         // create a message object
-        Message m = new Message ();
+        Message m = new Message (pid, clock, "init");
         m.setPid(pid);
         m.setClock(clock) ;
         
@@ -39,7 +39,7 @@ public class LamportClient implements Runnable {
         if ( (pid%2) == 0 ) {
             clock++;
             m.setClock(clock);
-            String event = Integer.toString(pid) + ":internal " + Integer.toString(clock); 
+            String event = "[INTERNAL] "  + "PID="  + Integer.toString(pid) + " CLOCK:" + Integer.toString(clock); 
             events.add(event);
         }
         for (int i = 0; i < NUM_EVENTS ; i++ ) {
@@ -48,11 +48,11 @@ public class LamportClient implements Runnable {
             m.setClock(clock);
             if ( ((i%2) == 0) ) {
                 // internal event
-                String event = Integer.toString(pid) + ":internal " + Integer.toString(clock); 
+                String event = "[INTERNAL] "  + "PID="  + Integer.toString(pid) + " CLOCK:" + Integer.toString(clock); 
                 events.add(event);
             } else {
                 // external event
-                String event = Integer.toString(pid) + ":send " + Integer.toString(clock); 
+                String event = "[SEND]     " + "PID="  + Integer.toString(pid) + " CLOCK:" + Integer.toString(clock); 
                 events.add(event);
                 m.setMessageID(event);
                 buffer.put(m); // sleep for a random time to induce different orders
@@ -72,7 +72,7 @@ public class LamportClient implements Runnable {
                     } else {
                         clock++;
                     }
-                    event = Integer.toString(pid) + ":receive from " + recMsg.getMessageID() +  ":new clock:" +Integer.toString(clock); 
+                    event = "[RECEIVE]  " + "FROM PID="  + Integer.toString(recMsg.getPid()) + " CLOCK IN:" + Integer.toString(recMsg.getClock()) + " LOCAL CLOCK " + Integer.toString(clock); 
                     events.add(event);
                 }
                 

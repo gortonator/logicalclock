@@ -13,6 +13,26 @@ public class Message {
     private int pid;
     private int clock;
     private String messageID;
+    
+    /**
+     * Constructor
+     * @param pid
+     * @param clock
+     * @param message 
+     */
+    public Message (int pid, int clock, String message) {
+        this.pid = pid;
+        this.clock = clock;
+        this.messageID = message;
+    }
+    /**
+     *  Copy constructor
+     */
+    public Message (Message aMessage) {
+        this.pid = aMessage.getPid();
+        this.clock = aMessage.getClock();
+        this.messageID = aMessage.getMessageID();
+    }
 
     /**
      * @return the pid

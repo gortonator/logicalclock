@@ -33,7 +33,7 @@ public class MessageBuffer {
         //check the available message isn't one I sent ..
         if ( messages[back].getPid() == myPid) {
             // I don't want this message. Notify others so someone else can grab it
-            System.out.println(myPid + ":Same pid as message in buffer");
+            // System.out.println("[BUFFER GET] FROM PID " + myPid + " :Same pid as message in buffer[" + back +"] " + messages[back].getPid() + " " + messages[back].getClock());
             notifyAll();
             return null;
         } else {
@@ -41,6 +41,7 @@ public class MessageBuffer {
             numItems--;
             // Notify producer that buffer is empty
             Message msg = messages [back];
+            // System.out.println("[BUFFER GET] " + "POSITION: " + back + " MESSAGE: " + msg.getPid() + " + " + msg.getClock());
             back = (back + 1) % CAPACITY ;
             notifyAll();
             return msg;
@@ -55,13 +56,20 @@ public class MessageBuffer {
                 System.out.println("Buffer is full. Waiting ....");
             } catch (InterruptedException e) {}
         }
-        // Toggle status.
+        // we're adding to buffer so increment
         numItems++;
         // Store message.
-        this.messages[front] = message;
+        this.messages[front] = new Message(message);        
+        // System.out.println("[BUFFER PUT] " + "POSITION: " + front + " MESSAGE: " + messages[front].getPid() + " + " + messages[front].getClock());
         front = (front + 1 ) % CAPACITY ;
         // Notify consumer that message is available
         notifyAll();
+    }
+    
+    public void printBufferContents() {
+         for (int i=0;i<front;i++) {
+            System.out.println("[BUFFER] "  + i + "[" + messages[i].getPid() +"," + messages[i].getClock() + "]") ;
+        }
     }
 
 }

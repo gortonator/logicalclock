@@ -14,14 +14,14 @@ public class LamportTest {
     public static void main(String[] args) {
         System.out.println("starting ....");
         MessageBuffer buffer = new MessageBuffer(10);
-    //    (new Thread(new LamportClient(buffer, 0))).start();
-    //    (new Thread(new LamportClient(buffer, 1))).start();
-    //    (new Thread(new LamportClient(buffer, 2))).start();
+        (new Thread(new LamportClient(buffer, 0))).start();
+        (new Thread(new LamportClient(buffer, 1))).start();
+        (new Thread(new LamportClient(buffer, 2))).start();
         
         
-        (new Thread(new TestReceiver(buffer, 1))).start();
-        (new Thread(new TestReceiver(buffer, 2))).start();
-        (new Thread(new testSender(buffer, 0))).start();
+       // (new Thread(new TestReceiver(buffer, 1))).start();
+        //(new Thread(new TestReceiver(buffer, 2))).start();
+        //(new Thread(new testSender(buffer, 0))).start();
       }
 }
     
