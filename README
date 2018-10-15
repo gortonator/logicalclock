@@ -5,4 +5,5 @@ A simple experment with Lamport clocks.
 -Random sleep periods ensure we get very non-deterministic behaviour
 -Threads can't consume message that they sent.
 
-Threads complete and print out the order of events thay see locally. Currently this is not synchronized so could interleave - one to fix :)
+Threads complete and print out the order of events thay see locally. 
+Currently this is not synchronized so could interleave - one to fix :)
