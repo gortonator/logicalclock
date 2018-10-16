@@ -6,4 +6,6 @@ A simple experment with Lamport clocks.
 -Threads can't consume message that they sent.
 
 Threads complete and print out the order of events thay see locally. 
-Currently this is not synchronized so could interleave - one to fix :)
+
+1) Run this code and see if you can confirm that it implements the Lamport CLocks algorithm correctly.
+2) Modify this code to implement Vectoc Clocks
